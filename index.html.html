@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>StudyMate — Saath Padho, Saath Badho</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0D0F1A;
+      --surface:   #151826;
+      --border:    #242840;
+      --accent:    #6C63FF;
+      --accent2:   #FF6B6B;
+      --accent3:   #43E8A0;
+      --text:      #E8E9F3;
+      --muted:     #7B7E99;
+      --card-bg:   #181B2E;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Space Grotesk', sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 6vw;
+      border-bottom: 1px solid var(--border);
+      position: sticky; top: 0;
+      background: rgba(13,15,26,0.85);
+      backdrop-filter: blur(12px);
+      z-index: 100;
+    }
+    .logo {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: -0.03em;
+    }
+    .logo span { color: var(--accent3); }
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+    nav a:hover { color: var(--text); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 92vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 5rem 6vw 4rem;
+      position: relative;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 20% 40%, rgba(108,99,255,0.15) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 40% at 80% 60%, rgba(67,232,160,0.10) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(108,99,255,0.15);
+      border: 1px solid rgba(108,99,255,0.35);
+      color: #a59fff;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.35rem 0.9rem;
+      border-radius: 999px;
+      margin-bottom: 1.8rem;
+    }
+    .badge-dot {
+      width: 7px; height: 7px;
+      background: var(--accent3);
+      border-radius: 50%;
+      animation: pulse 1.8s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%,100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.7); }
+    }
+
+    h1 {
+      font-size: clamp(2.4rem, 6vw, 4.8rem);
+      font-weight: 700;
+      line-height: 1.12;
+      letter-spacing: -0.04em;
+      max-width: 820px;
+      margin-bottom: 1.4rem;
+    }
+    h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--accent), var(--accent3));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      color: var(--muted);
+      max-width: 520px;
+      margin-bottom: 2.8rem;
+      font-family: 'Noto Sans Devanagari', sans-serif;
+      font-weight: 400;
+    }
+
+    /* ── SIGNUP FORM ── */
+    .signup-box {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 1rem;
+      width: 100%;
+      max-width: 480px;
+    }
+    .signup-box input {
+      flex: 1 1 220px;
+      padding: 0.85rem 1.2rem;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .signup-box input::placeholder { color: var(--muted); }
+    .signup-box input:focus { border-color: var(--accent); }
+    .btn-primary {
+      padding: 0.85rem 1.8rem;
+      border-radius: 10px;
+      border: none;
+      background: var(--accent);
+      color: #fff;
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+      white-space: nowrap;
+    }
+    .btn-primary:hover { background: #5a52e0; transform: translateY(-1px); }
+
+    .hero-note {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-bottom: 3.5rem;
+    }
+
+    /* ── LIVE COUNTER ── */
+    .counter-row {
+      display: flex;
+      gap: 2.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .counter-item { text-align: center; }
+    .counter-num {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--accent3);
+      letter-spacing: -0.03em;
+    }
+    .counter-label {
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+    }
+
+    /* ── SECTION SHARED ── */
+    section {
+      padding: 5rem 6vw;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .section-eyebrow {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.7rem;
+    }
+    .section-title {
+      font-size: clamp(1.7rem, 4vw, 2.6rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.8rem;
+    }
+    .section-sub {
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 480px;
+      font-family: 'Noto Sans Devanagari', sans-serif;
+    }
+
+    /* ── FEATURES ── */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.2rem;
+      margin-top: 3rem;
+    }
+    .feat-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.8rem;
+      transition: border-color 0.2s, transform 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .feat-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+    }
+    .feat-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(108,99,255,0.05), transparent);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .feat-card:hover::after { opacity: 1; }
+    .feat-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+    .feat-title {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    .feat-desc {
+      font-size: 0.88rem;
+      color: var(--muted);
+      font-family: 'Noto Sans Devanagari', sans-serif;
+      line-height: 1.7;
+    }
+
+    /* ── HOW IT WORKS ── */
+    .how-section {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .how-section > div {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 5rem 6vw;
+    }
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+    .step { position: relative; }
+    .step-num {
+      font-size: 3.5rem;
+      font-weight: 700;
+      color: var(--border);
+      line-height: 1;
+      margin-bottom: 0.8rem;
+      font-variant-numeric: tabular-nums;
+    }
+    .step-title {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+    .step-desc {
+      font-size: 0.85rem;
+      color: var(--muted);
+      font-family: 'Noto Sans Devanagari', sans-serif;
+      line-height: 1.7;
+    }
+
+    /* ── WHO IS IT FOR ── */
+    .audience-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+      margin-top: 1.8rem;
+    }
+    .chip {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.5rem 1.1rem;
+      font-size: 0.85rem;
+      color: var(--text);
+    }
+    .chip-accent {
+      background: rgba(108,99,255,0.12);
+      border-color: rgba(108,99,255,0.35);
+      color: #a59fff;
+    }
+
+    /* ── CTA BOTTOM ── */
+    .cta-bottom {
+      background: linear-gradient(135deg, rgba(108,99,255,0.15), rgba(67,232,160,0.08));
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 4rem 2rem;
+      text-align: center;
+      margin: 0 6vw 5rem;
+    }
+    .cta-bottom h2 {
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.8rem;
+    }
+    .cta-bottom p {
+      color: var(--muted);
+      margin-bottom: 2rem;
+      font-family: 'Noto Sans Devanagari', sans-serif;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 1.8rem 6vw;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    /* ── SUCCESS STATE ── */
+    .success-msg {
+      display: none;
+      align-items: center;
+      gap: 0.6rem;
+      background: rgba(67,232,160,0.12);
+      border: 1px solid rgba(67,232,160,0.3);
+      color: var(--accent3);
+      padding: 0.8rem 1.4rem;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    @media (max-width: 600px) {
+      .signup-box { flex-direction: column; align-items: stretch; }
+      .btn-primary { width: 100%; text-align: center; }
+      .counter-row { gap: 1.5rem; }
+      footer { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Study<span>Mate</span></div>
+  <a href="#signup-bottom">Early Access Lein →</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="badge"><span class="badge-dot"></span> Coming Soon — Students ke liye</div>
+
+  <h1>Akele mat padho.<br/><em>Saath padho.</em></h1>
+
+  <p class="subtitle">
+    Apne jaise students dhundo — same subject, same exam, same struggle.<br/>
+    Live study rooms join karo. Doubts poocho. Real time mein.
+  </p>
+
+  <div class="signup-box" id="hero-form">
+    <input type="email" id="hero-email" placeholder="Apna email daalo" />
+    <button class="btn-primary" onclick="handleSignup('hero-email', 'hero-success')">Notify Karo Mujhe</button>
+  </div>
+  <div class="success-msg" id="hero-success">✅ Done! Launch pe sabse pehle aapko batayenge.</div>
+  <p class="hero-note">No spam. Sirf launch update. Unsubscribe anytime.</p>
+
+  <div class="counter-row">
+    <div class="counter-item">
+      <div class="counter-num" id="count">0</div>
+      <div class="counter-label">Students Waiting</div>
+    </div>
+    <div class="counter-item">
+      <div class="counter-num">∞</div>
+      <div class="counter-label">Study Hours Possible</div>
+    </div>
+    <div class="counter-item">
+      <div class="counter-num">Free</div>
+      <div class="counter-label">Forever for Early Users</div>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section>
+  <p class="section-eyebrow">Kya Milega</p>
+  <h2 class="section-title">Ek jagah, sab kuch</h2>
+  <p class="section-sub">WhatsApp groups aur random YouTube streams ki zaroorat nahi. Yahan sab organized hai.</p>
+
+  <div class="features-grid">
+    <div class="feat-card">
+      <span class="feat-icon">🔍</span>
+      <div class="feat-title">Peer Finder</div>
+      <p class="feat-desc">Same subject, same board, same exam goal wale students dhundo. JEE wale JEE waalon se milein, NEET wale NEET waalon se.</p>
+    </div>
+    <div class="feat-card">
+      <span class="feat-icon">📺</span>
+      <div class="feat-title">Live Study Rooms</div>
+      <p class="feat-desc">Camera on karo, saath baitho virtually. Pomodoro timer, lo-fi music, screen share — sab ek room mein.</p>
+    </div>
+    <div class="feat-card">
+      <span class="feat-icon">💬</span>
+      <div class="feat-title">Doubt Chat</div>
+      <p class="feat-desc">Photo kheechi, doubt upload karo. Subject-wise rooms mein doosre students turant jawab dete hain.</p>
+    </div>
+    <div class="feat-card">
+      <span class="feat-icon">🎯</span>
+      <div class="feat-title">Study Streams</div>
+      <p class="feat-desc">"Maths Chapter 5 padh raha hoon" — live stream shuru karo, dusre join karein, saath mein progress karo.</p>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<div class="how-section">
+  <div>
+    <p class="section-eyebrow">Kaise Kaam Karta Hai</p>
+    <h2 class="section-title">3 steps, bas</h2>
+    <p class="section-sub">Sign up se lekar study session tak — sirf 2 minute.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-title">Profile Banao</div>
+        <p class="step-desc">Apna class, subject, aur exam goal daalo. Bas itna kaafi hai.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-title">Match Dhundo</div>
+        <p class="step-desc">Apne jaise students ka list milega — "abhi online" filter se live waalon se connect karo.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-title">Padho Saath Mein</div>
+        <p class="step-desc">Study room join karo ya khud banao. Doubts poocho, notes share karo, saath grow karo.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WHO IS IT FOR -->
+<section>
+  <p class="section-eyebrow">Kiske Liye</p>
+  <h2 class="section-title">Har student ke liye jo akela padh raha hai</h2>
+  <p class="section-sub">Chahe koi bhi exam ho — yahan tumhara tribe milega.</p>
+  <div class="audience-chips">
+    <span class="chip chip-accent">JEE / NEET Aspirants</span>
+    <span class="chip">Class 10 / 12 Board</span>
+    <span class="chip">UPSC / SSC Prep</span>
+    <span class="chip chip-accent">College Students</span>
+    <span class="chip">CBSE / RBSE / ICSE</span>
+    <span class="chip">Coding Seekhne Wale</span>
+    <span class="chip chip-accent">Night Owls jo 2 baje padhte hain 😅</span>
+  </div>
+</section>
+
+<!-- CTA BOTTOM -->
+<div class="cta-bottom" id="signup-bottom">
+  <h2>Pehle 500 mein shaamil ho</h2>
+  <p>Early users ko lifetime free access milega. Aur launch pe sabse pehle aap jaanoge.</p>
+  <div class="signup-box" style="margin: 0 auto 0.8rem; justify-content: center;">
+    <input type="email" id="bottom-email" placeholder="email@example.com" />
+    <button class="btn-primary" onclick="handleSignup('bottom-email', 'bottom-success')">Count Me In</button>
+  </div>
+  <div class="success-msg" id="bottom-success" style="justify-content: center;">✅ You're on the list! Jald milte hain 🚀</div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="logo" style="font-size:1rem;">Study<span>Mate</span></div>
+  <span>Made with ❤️ for Indian students</span>
+  <span>© 2025 StudyMate</span>
+</footer>
+
+<script>
+  // Fake counter animation for social proof feel
+  let target = 47;
+  let current = 0;
+  const el = document.getElementById('count');
+  const timer = setInterval(() => {
+    current += Math.ceil((target - current) / 8);
+    if (current >= target) { current = target; clearInterval(timer); }
+    el.textContent = current;
+  }, 60);
+
+  // Signup handler
+  function handleSignup(inputId, successId) {
+    const input = document.getElementById(inputId);
+    const success = document.getElementById(successId);
+    const email = input.value.trim();
+
+    if (!email || !email.includes('@')) {
+      input.style.borderColor = '#FF6B6B';
+      input.focus();
+      setTimeout(() => input.style.borderColor = '', 1500);
+      return;
+    }
+
+    // Save to localStorage for demo
+    const list = JSON.parse(localStorage.getItem('sm_waitlist') || '[]');
+    if (!list.includes(email)) {
+      list.push(email);
+      localStorage.setItem('sm_waitlist', JSON.stringify(list));
+      target = 47 + list.length;
+      el.textContent = target;
+    }
+
+    input.style.display = 'none';
+    input.closest('.signup-box').querySelector('.btn-primary').style.display = 'none';
+    success.style.display = 'flex';
+  }
+</script>
+
+</body>
+</html>
